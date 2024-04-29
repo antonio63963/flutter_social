@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social/app_view.dart';
 import 'package:social/blocs/auth_bloc/authentication_bloc.dart';
+import 'package:social/main.dart';
 import 'package:user_repository/user_repository.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({
-    Key? key,
+    super.key,
     required this.userRepository,
-  }) : super(key: key);
+  });
   final UserRepository userRepository;
 
   @override
@@ -23,5 +24,6 @@ class MyApp extends StatelessWidget {
       ],
       child: AppView(),
     );
+    // return Vs();
   }
 }

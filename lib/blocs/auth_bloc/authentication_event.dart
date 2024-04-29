@@ -1,7 +1,6 @@
 part of 'authentication_bloc.dart';
 
-@immutable
-sealed class AuthenticationEvent extends Equatable {
+abstract class AuthenticationEvent extends Equatable {
   const AuthenticationEvent();
 
   @override

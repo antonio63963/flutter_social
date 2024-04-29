@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social/blocs/auth_bloc/authentication_bloc.dart';
+import 'package:social/screens/authentication/welcome_screen.dart';
+import 'package:social/screens/home/home_screen.dart';
 
 class AppView extends StatelessWidget {
   const AppView({super.key});
@@ -27,7 +29,7 @@ class AppView extends StatelessWidget {
             if (state.status == AuthenticationStatus.authenticated) {
               return HomeScreen();
             } else {
-              return AuthScreen();
+              return WelcomeScreen();
             }
           },
         ));
