@@ -35,14 +35,12 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Column(
-                mainAxisSize: MainAxisSize.min,
                 children: [
-                  const SizedBox(height: 120),
-                  const Text('Welcome',
-                      style:
-                          TextStyle(fontWeight: FontWeight.w700, fontSize: 28)),
-                  const SizedBox(height: 60),
+                  const SizedBox(height: 80),
+                  Image.asset('assets/img/login.jpg', width: 250,),
+                  const SizedBox(height: 50),
                   TabBar(
+                    indicatorColor: theme.colorScheme.tertiary,
                     controller: tabController,
                     unselectedLabelColor:
                         theme.colorScheme.onBackground.withOpacity(.5),
