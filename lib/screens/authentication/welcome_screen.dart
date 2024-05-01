@@ -36,7 +36,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Column(
                 children: [
-                  const SizedBox(height: 80),
+                  const SizedBox(height: 50),
                   Image.asset('assets/img/login.jpg', width: 250,),
                   const SizedBox(height: 50),
                   TabBar(

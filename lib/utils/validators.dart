@@ -3,6 +3,8 @@ class Validators {
   // 8 char, one uppercase, num, and one special character
   static RegExp passwordRexExp = RegExp(
       r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~`)\%\-(_+=;:,.<>/?"[{\]}\|^]).{8,}$');
+  // is existing special char
+  static RegExp specialCharRexExp = RegExp(r'^(?=.*?[!@#$&*~`)\%\-(_+=;:,.<>/?"[{\]}\|^])');
 
   static String? email(val) {
     if (val!.isEmpty) {
