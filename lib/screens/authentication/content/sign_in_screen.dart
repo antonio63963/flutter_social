@@ -37,18 +37,18 @@ class _SignInScreenState extends State<SignInScreen> {
       key: _formKey,
       child: Column(
         children: [
-          const SizedBox(height: 30),
           EmailInput(
             emailController: emailController,
             errMsg: _errMsg,
+            paddingTop: 30,
           ),
-          const SizedBox(height: 20),
           PasswordInput(
             passwordController: passwordController,
             errMsg: _errMsg,
             validator: Validators.password,
+            paddingTop: 20,
+            paddingBottom: 30,
           ),
-          const SizedBox(height: 28),
           !isSignInRequred
               ? PrimaryButton(onPressed: onSubmit, text: "Sign In")
               : const CircularProgressIndicator(),

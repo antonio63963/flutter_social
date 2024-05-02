@@ -119,17 +119,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
         child: Center(
           child: Column(
             children: [
-              const SizedBox(height: 20),
-              NameInput(nameController: nameController),
-              const SizedBox(height: 10),
-              EmailInput(emailController: emailController),
-              const SizedBox(height: 10),
+              NameInput(
+                nameController: nameController,
+                paddingTop: 20,
+                paddingBottom: 10,
+              ),
+              EmailInput(
+                emailController: emailController,
+                paddingBottom: 10,
+              ),
               PasswordInput(
                 passwordController: passwordController,
                 onChanged: validatePasswordRules,
                 validator: Validators.password,
+                paddingBottom: 10,
               ),
-              const SizedBox(height: 10),
               PasswordRulesSection(
                 containsUpperCase: containsUpperCase,
                 contains8Length: contains8Length,
@@ -137,7 +141,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 containsNumber: containsNumber,
                 containsSpecialChar: containsSpecialChar,
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.02),
               !signUpRequired
                   ? PrimaryButton(onPressed: onSubmit, text: "Sign Up")
                   : const CircularProgressIndicator()
