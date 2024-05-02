@@ -20,14 +20,8 @@ class _SignInScreenState extends State<SignInScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   String? _errMsg;
-  bool obscurePassword = true;
   bool isSignInRequred = false;
 
-  void toggleHidePassword() {
-    setState(() {
-      obscurePassword = !obscurePassword;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +38,7 @@ class _SignInScreenState extends State<SignInScreen> {
           PasswordInput(
             passwordController: passwordController,
             errMsg: _errMsg,
-            obscurePassword: obscurePassword,
-            onShowPassword: toggleHidePassword,
+            validator: Validators.password,
           ),
           const SizedBox(height: 28),
           !isSignInRequred

@@ -4,7 +4,8 @@ class Validators {
   static RegExp passwordRexExp = RegExp(
       r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~`)\%\-(_+=;:,.<>/?"[{\]}\|^]).{8,}$');
   // is existing special char
-  static RegExp specialCharRexExp = RegExp(r'^(?=.*?[!@#$&*~`)\%\-(_+=;:,.<>/?"[{\]}\|^])');
+  static RegExp specialCharRexExp =
+      RegExp(r'^(?=.*?[!@#$&*~`)\%\-(_+=;:,.<>/?"[{\]}\|^])');
 
   static String? email(val) {
     if (val!.isEmpty) {
@@ -20,6 +21,15 @@ class Validators {
       return 'Please fill in this field';
     } else if (val.length < 6) {
       return 'Please enter a valid password min 6 symbols';
+    }
+    return null;
+  }
+
+  static String? name(val) {
+    if (val!.isEmpty) {
+      return 'Please fill in this field';
+    } else if (val.length > 30) {
+      return 'Name too long';
     }
     return null;
   }

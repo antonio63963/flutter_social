@@ -9,7 +9,7 @@ class EmailInput extends StatelessWidget {
   const EmailInput({
     super.key,
     required this.emailController,
-    required this.errMsg,
+    this.errMsg,
   });
 
   @override

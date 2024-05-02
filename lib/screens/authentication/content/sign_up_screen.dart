@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social/blocs/sign_up_bloc/sign_up_bloc.dart';
 import 'package:social/components/my_text_field.dart';
+import 'package:social/screens/authentication/widgets/email_input.dart';
+import 'package:social/screens/authentication/widgets/name_input.dart';
+import 'package:social/screens/authentication/widgets/password_input.dart';
+import 'package:social/screens/authentication/widgets/password_rules_section.dart';
 import 'package:social/utils/validators.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -27,8 +31,58 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool containsSpecialChar = false;
   bool contains8Length = false;
 
+  String? validatePasswordRules(String? val) {
+    if (val!.contains(RegExp(r'[A-Z]'))) {
+      setState(() {
+        containsUpperCase = true;
+      });
+    } else {
+      setState(() {
+        containsUpperCase = false;
+      });
+    }
+    if (val.contains(RegExp(r'[a-z]'))) {
+      setState(() {
+        containsLowerCase = true;
+      });
+    } else {
+      setState(() {
+        containsLowerCase = false;
+      });
+    }
+    if (val.contains(RegExp(r'[0-9]'))) {
+      setState(() {
+        containsNumber = true;
+      });
+    } else {
+      setState(() {
+        containsNumber = false;
+      });
+    }
+    if (val.contains(Validators.passwordRexExp)) {
+      setState(() {
+        containsSpecialChar = true;
+      });
+    } else {
+      setState(() {
+        containsSpecialChar = false;
+      });
+    }
+    if (val.length >= 8) {
+      setState(() {
+        contains8Length = true;
+      });
+    } else {
+      setState(() {
+        contains8Length = false;
+      });
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
+    logger.i('signUp');
     return BlocListener<SignUpBloc, SignUpState>(
       listener: (context, state) {
         if (state is SignUpSuccess) {
@@ -49,155 +103,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
           child: Column(
             children: [
               const SizedBox(height: 20),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: MyTextField(
-                  controller: emailController,
-                  hintText: 'Email',
-                  obscureText: false,
-                  keyboardType: TextInputType.emailAddress,
-                  prefixIcon: const Icon(CupertinoIcons.mail_solid),
-                  validator: Validators.email,
-                ),
+              NameInput(nameController: nameController),
+              const SizedBox(height: 10),
+              EmailInput(emailController: emailController),
+              const SizedBox(height: 10),
+              PasswordInput(
+                passwordController: passwordController,
+                onChanged: validatePasswordRules,
+                validator: Validators.password,
               ),
               const SizedBox(height: 10),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: MyTextField(
-                    controller: passwordController,
-                    hintText: 'Password',
-                    obscureText: obscurePassword,
-                    keyboardType: TextInputType.visiblePassword,
-                    prefixIcon: const Icon(CupertinoIcons.lock_fill),
-                    onChanged: (val) {
-                      if (val!.contains(RegExp(r'[A-Z]'))) {
-                        setState(() {
-                          containsUpperCase = true;
-                        });
-                      } else {
-                        setState(() {
-                          containsUpperCase = false;
-                        });
-                      }
-                      if (val.contains(RegExp(r'[a-z]'))) {
-                        setState(() {
-                          containsLowerCase = true;
-                        });
-                      } else {
-                        setState(() {
-                          containsLowerCase = false;
-                        });
-                      }
-                      if (val.contains(RegExp(r'[0-9]'))) {
-                        setState(() {
-                          containsNumber = true;
-                        });
-                      } else {
-                        setState(() {
-                          containsNumber = false;
-                        });
-                      }
-                      if (val.contains(Validators.passwordRexExp)) {
-                        setState(() {
-                          containsSpecialChar = true;
-                        });
-                      } else {
-                        setState(() {
-                          containsSpecialChar = false;
-                        });
-                      }
-                      if (val.length >= 8) {
-                        setState(() {
-                          contains8Length = true;
-                        });
-                      } else {
-                        setState(() {
-                          contains8Length = false;
-                        });
-                      }
-                      return null;
-                    },
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          obscurePassword = !obscurePassword;
-                        });
-                      },
-                      icon: Icon(obscurePassword
-                          ? CupertinoIcons.eye_fill
-                          : CupertinoIcons.eye_slash_fill),
-                    ),
-                    validator: Validators.password),
-              ),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "⚈  1 uppercase",
-                        style: TextStyle(
-                            color: containsUpperCase
-                                ? Colors.green
-                                : Theme.of(context).colorScheme.onBackground),
-                      ),
-                      Text(
-                        "⚈  1 lowercase",
-                        style: TextStyle(
-                            color: containsLowerCase
-                                ? Colors.green
-                                : Theme.of(context).colorScheme.onBackground),
-                      ),
-                      Text(
-                        "⚈  1 number",
-                        style: TextStyle(
-                            color: containsNumber
-                                ? Colors.green
-                                : Theme.of(context).colorScheme.onBackground),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "⚈  1 special character",
-                        style: TextStyle(
-                            color: containsSpecialChar
-                                ? Colors.green
-                                : Theme.of(context).colorScheme.onBackground),
-                      ),
-                      Text(
-                        "⚈  8 minimum character",
-                        style: TextStyle(
-                            color: contains8Length
-                                ? Colors.green
-                                : Theme.of(context).colorScheme.onBackground),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: MyTextField(
-                    controller: nameController,
-                    hintText: 'Name',
-                    obscureText: false,
-                    keyboardType: TextInputType.name,
-                    prefixIcon: const Icon(CupertinoIcons.person_fill),
-                    validator: (val) {
-                      if (val!.isEmpty) {
-                        return 'Please fill in this field';
-                      } else if (val.length > 30) {
-                        return 'Name too long';
-                      }
-                      return null;
-                    }),
+              PasswordRulesSection(
+                containsUpperCase: containsUpperCase,
+                contains8Length: contains8Length,
+                containsLowerCase: containsLowerCase,
+                containsNumber: containsNumber,
+                containsSpecialChar: containsSpecialChar,
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.02),
               !signUpRequired
