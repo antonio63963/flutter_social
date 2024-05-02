@@ -16,6 +16,8 @@ class AuthenticationBloc
   final UserRepository _userRepository;
   late final StreamSubscription<User?> _userSubscription;
 
+  UserRepository get userRepository => _userRepository;
+
   AuthenticationBloc({
     required UserRepository userRepository,
   })  : _userRepository = userRepository,

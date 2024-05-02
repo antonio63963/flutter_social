@@ -23,16 +23,6 @@ class MyApp extends StatelessWidget {
             userRepository: userRepository,
           ),
         ),
-        RepositoryProvider<SignInBloc>(
-          create: (_) => SignInBloc(
-            userRepository: userRepository,
-          ),
-        ),
-        RepositoryProvider<SignUpBloc>(
-          create: (_) => SignUpBloc(
-            userRepository: userRepository,
-          ),
-        ),
       ],
       child: AppView(),
     );

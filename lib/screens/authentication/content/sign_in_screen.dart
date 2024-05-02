@@ -18,7 +18,7 @@ class _SignInScreenState extends State<SignInScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   String? _errMsg;
-  bool isSignInRequred = false;
+  bool isSignInRequired = false;
 
   void onSubmit() {
     if (_formKey.currentState!.validate()) {
@@ -33,26 +33,41 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        children: [
-          EmailInput(
-            emailController: emailController,
-            errMsg: _errMsg,
-            paddingTop: 30,
-          ),
-          PasswordInput(
-            passwordController: passwordController,
-            errMsg: _errMsg,
-            validator: Validators.password,
-            paddingTop: 20,
-            paddingBottom: 30,
-          ),
-          !isSignInRequred
-              ? PrimaryButton(onPressed: onSubmit, text: "Sign In")
-              : const CircularProgressIndicator(),
-        ],
+    return BlocListener<SignInBloc, SignInState>(
+      listener: (context, state) {
+            if (state is SignInSuccess) {
+          setState(() {
+            isSignInRequired = false;
+          });
+        } else if (state is SignInProcess) {
+          setState(() {
+            isSignInRequired = true;
+          });
+        } else if (state is SignInFailure) {
+          return;
+        }
+      },
+      child: Form(
+        key: _formKey,
+        child: Column(
+          children: [
+            EmailInput(
+              emailController: emailController,
+              errMsg: _errMsg,
+              paddingTop: 30,
+            ),
+            PasswordInput(
+              passwordController: passwordController,
+              errMsg: _errMsg,
+              validator: Validators.password,
+              paddingTop: 20,
+              paddingBottom: 30,
+            ),
+            !isSignInRequired
+                ? PrimaryButton(onPressed: onSubmit, text: "Sign In")
+                : const CircularProgressIndicator(),
+          ],
+        ),
       ),
     );
   }
