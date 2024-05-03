@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:social/utils/extensiions.dart';
 import 'package:social/utils/styles.dart';
 
 class PostCard extends StatelessWidget {
@@ -41,7 +42,7 @@ class PostCard extends StatelessWidget {
                     child: avatar != null
                         ? Image.network(avatar!)
                         : Text(
-                            userName.substring(0, 2),
+                            userName.capitalize().substring(0, 2),
                             style: Styles.avatarText,
                           ),
                   ),
