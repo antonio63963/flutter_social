@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:social/components/my_text_field.dart';
 import 'package:social/utils/validators.dart';
 

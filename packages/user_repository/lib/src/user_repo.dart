@@ -9,4 +9,5 @@ abstract class UserRepository {
   Future<void> setUserData(MyUser user);
   Future<MyUser> getMyUser(String id);
   Stream<User?> get user;
+  Future<String> uploadPicture(String file, String userId);
 }

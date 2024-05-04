@@ -20,6 +20,8 @@ dependencies:
   user_repository: 
     path: packages/user_repository
   logger: ^2.2.0
+  image_picker: ^1.1.1
+  image_cropper: ^6.0.0
 
 dev_dependencies:
   flutter_test:
