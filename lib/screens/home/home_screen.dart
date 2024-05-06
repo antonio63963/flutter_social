@@ -15,14 +15,7 @@ class HomeScreen extends StatelessWidget {
         appBar: AppBar(
           title: Row(
             children: [
-              Container(
-                width: 50,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.onBackground,
-                  shape: BoxShape.circle,
-                ),
-              ),
+              CircleAvatar(child: Icon(CupertinoIcons.person),),
               const SizedBox(width: 10),
               const Text('Welcome Name')
             ],

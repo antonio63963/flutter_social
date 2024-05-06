@@ -101,7 +101,7 @@ class FirebaseUserRepository implements UserRepository {
   Future<String> uploadPicture(String file, String userId) async {
     try {
       File imageFile = File(file);
-      Reference firebaseStoreRef =
+      final firebaseStoreRef =
           FirebaseStorage.instance.ref().child('$userId/PP/${userId}_lead');
       await firebaseStoreRef.putFile(imageFile);
       String url = await firebaseStoreRef.getDownloadURL();
