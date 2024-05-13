@@ -20,7 +20,7 @@ class PostCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(
-        horizontal: 8,
+        horizontal: 4,
         vertical: 8,
       ),
       child: Container(

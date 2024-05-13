@@ -44,6 +44,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   Image.asset(
                     'assets/img/login.jpg',
                     width: 250,
+                    fit: BoxFit.cover,
                   ),
                   const SizedBox(height: 50),
                   TabBar(

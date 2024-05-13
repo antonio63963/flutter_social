@@ -4,7 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social/app.dart';
 import 'package:social/simple_bloc_observer.dart';
-import 'package:user_repository/user_repository.dart';
+import 'package:user_repository/user_repository.dart' show FirebaseUserRepository;
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
