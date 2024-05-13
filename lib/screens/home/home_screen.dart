@@ -9,7 +9,9 @@ import 'package:logger/logger.dart';
 import 'package:social/blocs/my_user_bloc/my_user_bloc.dart';
 import 'package:social/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:social/blocs/update_user_info_bloc/update_user_info_bloc.dart';
+import 'package:social/components/fab.dart';
 import 'package:social/components/post_card/post_card.dart';
+import 'package:social/screens/home/post_screen.dart';
 import 'package:user_repository/user_repository.dart';
 
 final logger = Logger();
@@ -138,13 +140,14 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             },
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {},
-            shape: const CircleBorder(),
-            child: const Icon(
-              CupertinoIcons.add,
-            ),
-          ),
+          floatingActionButton: Fab(onFab: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute<void>(
+                builder: (BuildContext context) => const PostScreen(),
+              ),
+            );
+          }),
         ),
       ),
     );
