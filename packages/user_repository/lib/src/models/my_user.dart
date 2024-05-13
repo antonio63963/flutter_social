@@ -5,16 +5,16 @@ class MyUser extends Equatable {
   final String id;
   final String email;
   final String name;
-  final String? picture;
+  String? picture;
 
-  const MyUser({
+  MyUser({
     required this.id,
     required this.email,
     required this.name,
-    required this.picture,
+    this.picture,
   });
 
-  static const empty = MyUser(
+  static MyUser empty = MyUser(
     id: '',
     email: '',
     name: '',

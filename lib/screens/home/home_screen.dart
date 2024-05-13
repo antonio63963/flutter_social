@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
 import 'package:social/blocs/my_user_bloc/my_user_bloc.dart';
@@ -28,49 +29,90 @@ class _HomeScreenState extends State<HomeScreen> {
       child: BlocListener<UpdateUserInfoBloc, UpdateUserInfoState>(
         listener: (context, state) {
           if (state is UploadPictureSuccess) {
-            // setState(() {
-            //   context.read<MyUserBloc>().state.user!.picture =
-            // });
+            setState(() {
+              context.read<MyUserBloc>().state.user!.picture = state.userImage;
+            });
           }
         },
         child: Scaffold(
           appBar: AppBar(
             title: BlocBuilder<MyUserBloc, MyUserState>(
               builder: (context, state) {
-                return Text('HOHO');
-                // if (state.status == MyUserStatus.success) {
-                //   return Row(
-                //     children: [
-                //       GestureDetector(
-                //         onTap: () async {
-                //           final ImagePicker picker = ImagePicker();
-                //           final XFile? image = await picker.pickImage(
-                //             source: ImageSource.gallery,
-                //             maxHeight: 500,
-                //             maxWidth: 500,
-                //             imageQuality: 40,
-                //           );
-                //         },
-                //         child: CircleAvatar(
-                //           radius: 24,
-                //           backgroundColor: Colors.grey.shade300,
-                //           child: state.user!.picture == '' ||
-                //                   state.user!.picture == null
-                //               ? Icon(
-                //                   CupertinoIcons.person,
-                //                   color: Colors.grey.shade500,
-                //                 )
-                //               : Image.network(
-                //                   state.user!.picture!,
-                //                   fit: BoxFit.cover,
-                //                 ),
-                //         ),
-                //       ),
-                //       const SizedBox(width: 10),
-                //       const Text('Welcome Name')
-                //     ],
-                //   );
-                // }
+                if (state.status == MyUserStatus.success) {
+                  return Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () async {
+                          final ImagePicker picker = ImagePicker();
+                          final XFile? image = await picker.pickImage(
+                            source: ImageSource.gallery,
+                            maxHeight: 500,
+                            maxWidth: 500,
+                            imageQuality: 40,
+                          );
+                          if (image != null) {
+                            CroppedFile? croppedFile =
+                                await ImageCropper().cropImage(
+                              sourcePath: image.path,
+                              aspectRatio: const CropAspectRatio(
+                                ratioX: 1,
+                                ratioY: 1,
+                              ),
+                              aspectRatioPresets: [
+                                CropAspectRatioPreset.square
+                              ],
+                              uiSettings: [
+                                AndroidUiSettings(
+                                  toolbarTitle: 'Cropped',
+                                  toolbarColor: theme.colorScheme.primary,
+                                  toolbarWidgetColor: Colors.white,
+                                  initAspectRatio:
+                                      CropAspectRatioPreset.original,
+                                  lockAspectRatio: false,
+                                ),
+                                IOSUiSettings(
+                                  title: 'Cropped',
+                                )
+                              ],
+                            );
+                            if (croppedFile != null) {
+                              setState(() {
+                                context.read<UpdateUserInfoBloc>().add(
+                                      UploadPicture(
+                                        file: croppedFile.path,
+                                        userId: context
+                                            .read<MyUserBloc>()
+                                            .state
+                                            .user!
+                                            .id,
+                                      ),
+                                    );
+                              });
+                            }
+                          }
+                        },
+                        child: CircleAvatar(
+                          radius: 24,
+                          backgroundColor: Colors.grey.shade300,
+                          child: state.user!.picture == '' ||
+                                  state.user!.picture == null
+                              ? Icon(
+                                  CupertinoIcons.person,
+                                  color: Colors.grey.shade500,
+                                )
+                              : Image.network(
+                                  state.user!.picture!,
+                                  fit: BoxFit.cover,
+                                ),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      const Text('Welcome Name')
+                    ],
+                  );
+                } else {
+                  return SizedBox();
+                }
               },
             ),
             actions: [

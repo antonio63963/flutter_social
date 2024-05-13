@@ -34,8 +34,9 @@ class AppView extends StatelessWidget {
                 ),
                 BlocProvider(
                   create: (context) => UpdateUserInfoBloc(
-                      userRepository:
-                          context.read<AuthenticationBloc>().userRepository),
+                    userRepository:
+                        context.read<AuthenticationBloc>().userRepository,
+                  ),
                 ),
                 BlocProvider(
                   create: (context) => MyUserBloc(
