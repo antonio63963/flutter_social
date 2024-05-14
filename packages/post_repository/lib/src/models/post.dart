@@ -56,7 +56,7 @@ class Post {
       id: $id,
       post: $post,
       createAt: $createAt,
-      myUser: $myUser,
+      myUser: ${myUser.toString()},
     }
   ''';
 }

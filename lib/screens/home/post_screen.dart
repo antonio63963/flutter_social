@@ -19,7 +19,7 @@ class _PostScreenState extends State<PostScreen> {
   @override
   void initState() {
     post = Post.empty;
-    // post.myUser = widget.myUser;
+    post.myUser = widget.myUser;
     super.initState();
   }
 
