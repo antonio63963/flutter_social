@@ -32,7 +32,7 @@ class PostEntity {
 
   @override
   String toString() => '''
-    UserEntity: {
+    PostEntity: {
       id: $id,
       post: $post,
       createAt: $createAt,

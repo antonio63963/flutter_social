@@ -49,4 +49,14 @@ class Post {
         createAt: entity.createAt,
         myUser: entity.myUser,
       );
+
+  @override
+  String toString() => '''
+    Post: {
+      id: $id,
+      post: $post,
+      createAt: $createAt,
+      myUser: $myUser,
+    }
+  ''';
 }
