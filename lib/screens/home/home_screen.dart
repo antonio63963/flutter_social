@@ -140,14 +140,27 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             },
           ),
-          floatingActionButton: Fab(onFab: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute<void>(
-                builder: (BuildContext context) => const PostScreen(),
-              ),
-            );
-          }),
+          floatingActionButton: BlocBuilder<MyUserBloc, MyUserState>(
+            builder: (context, state) {
+              logger.w(
+                  'FAB home screen: ${context.read<MyUserBloc>().state.user}');
+              if(state.status == MyUserStatus.success) {
+              return Fab(onFab: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => PostScreen(
+                      myUser: state.user!,
+                    ),
+                  ),
+                );
+              }, icon: CupertinoIcons.add,);
+
+              }else {
+                return const Fab(onFab: null, icon: CupertinoIcons.clear,);
+              }
+            },
+          ),
         ),
       ),
     );

@@ -1,13 +1,32 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:post_repository/post_repository.dart';
+import 'package:social/app_view.dart';
 import 'package:social/components/fab.dart';
+import 'package:user_repository/user_repository.dart';
 
-class PostScreen extends StatelessWidget {
-  const PostScreen({super.key});
+class PostScreen extends StatefulWidget {
+  final MyUser myUser;
+  const PostScreen({super.key, required this.myUser});
+
+  @override
+  State<PostScreen> createState() => _PostScreenState();
+}
+
+class _PostScreenState extends State<PostScreen> {
+  late Post post;
+
+  @override
+  void initState() {
+    post = Post.empty;
+    // post.myUser = widget.myUser;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
+    logger.i('PostScreen: ${post.toString()}');
     return SafeArea(
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
@@ -32,13 +51,14 @@ class PostScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(4),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: theme.colorScheme.onBackground),
+                      borderSide:
+                          BorderSide(color: theme.colorScheme.onBackground),
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
                 )),
           ),
-          floatingActionButton: Fab(onFab: () {}),
+          floatingActionButton: Fab(onFab: () {}, icon: CupertinoIcons.add),
         ),
       ),
     );
