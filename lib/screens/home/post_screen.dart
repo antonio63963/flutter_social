@@ -14,7 +14,7 @@ class PostScreen extends StatelessWidget {
         child: Scaffold(
           backgroundColor: theme.colorScheme.background,
           appBar: AppBar(
-            title: Text('Create a post'),
+            title: const Text('Create a post'),
             elevation: 0,
             backgroundColor: theme.colorScheme.background,
           ),
@@ -28,7 +28,7 @@ class PostScreen extends StatelessWidget {
                   decoration: InputDecoration(
                     hintText: 'Enter your post here...',
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey),
+                      borderSide: const BorderSide(color: Colors.grey),
                       borderRadius: BorderRadius.circular(4),
                     ),
                     focusedBorder: OutlineInputBorder(

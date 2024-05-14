@@ -17,6 +17,7 @@ dependencies:
   flutter_bloc: ^8.1.5
   equatable: ^2.0.5
 
+  #custom repository
   user_repository: 
     path: packages/user_repository
   logger: ^2.2.0

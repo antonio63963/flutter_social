@@ -10,6 +10,9 @@ dependencies:
   flutter:
     sdk: flutter
 
+   #custom repository
+  user_repository: 
+    path: ../user_repository
 
 
 dev_dependencies:
