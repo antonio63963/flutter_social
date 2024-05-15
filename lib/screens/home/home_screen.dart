@@ -167,7 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       final userData = postData.myUser;
                       return PostCard(
                         userName: userData.name,
-                        date: '34343434',
+                        date: postData.toString(),
                         // postData.createAt.toIso8601String(),
                         text: postData.post,
                       );
