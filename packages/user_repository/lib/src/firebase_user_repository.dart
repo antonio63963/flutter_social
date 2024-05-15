@@ -80,8 +80,12 @@ class FirebaseUserRepository implements UserRepository {
   @override
   Future<MyUser> getMyUser(String id) async {
     try {
-      return usersCollection.doc(id).get().then((value) =>
-          MyUser.fromEntity(MyUserEntity.fromDocument(value.data()!)));
+      return usersCollection.doc(id).get().then((value) {
+        debugPrint('FB_REPO_GET_USER: ${value.data()}');
+        return MyUser.fromEntity(
+          MyUserEntity.fromDocument(value.data()!, id),
+        );
+      });
     } catch (err) {
       debugPrint(err.toString());
       rethrow;

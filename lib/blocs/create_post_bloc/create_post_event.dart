@@ -8,7 +8,8 @@ sealed class CreatePostEvent extends Equatable {
 }
 
 class CreatePost extends CreatePostEvent {
-  final Post post;
+  final String postText;
+  final MyUser myUser;
 
-  const CreatePost(this.post);
+  const CreatePost({required this.postText, required this.myUser});
 }

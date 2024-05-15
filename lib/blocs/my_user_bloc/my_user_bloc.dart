@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:social/blocs/auth_bloc/authentication_bloc.dart';
@@ -14,13 +16,14 @@ class MyUserBloc extends Bloc<MyUserEvent, MyUserState> {
         super(const MyUserState.loading()) {
     on<GetMyUser>((event, emit) async {
       try {
+        logger.i('GET USER ID: ${event.myUserId}');
         MyUser myUser = await _userRepository.getMyUser(event.myUserId);
+        logger.i('MY_USER_BLOC_GET: ${myUser.toString()}');
         emit(MyUserState.success(myUser));
       } catch (err) {
-        logger.e(err);
+        logger.e('ERRR MY_USER_BLOC_GET: $err');
         emit(const MyUserState.failure());
       }
     });
   }
 }
- 

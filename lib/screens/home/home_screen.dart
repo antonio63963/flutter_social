@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:logger/logger.dart';
+import 'package:social/blocs/get_post_bloc/get_post_bloc.dart';
 import 'package:social/blocs/my_user_bloc/my_user_bloc.dart';
 import 'package:social/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:social/blocs/update_user_info_bloc/update_user_info_bloc.dart';
@@ -24,6 +25,27 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  Widget getAvatar(MyUserState state) {
+    logger.w('Picture: ${state.user!.picture}');
+    return state.user!.picture != ''
+        ? Icon(
+            CupertinoIcons.person,
+            color: Colors.grey.shade500,
+          )
+        : Image.network(
+            state.user!.picture!,
+            fit: BoxFit.cover,
+          );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      context.read<GetPostsBloc>().add(GetPosts());
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -94,22 +116,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           }
                         },
                         child: CircleAvatar(
-                          radius: 24,
-                          backgroundColor: Colors.grey.shade300,
-                          child: state.user!.picture == '' ||
-                                  state.user!.picture == null
-                              ? Icon(
-                                  CupertinoIcons.person,
-                                  color: Colors.grey.shade500,
-                                )
-                              : Image.network(
-                                  state.user!.picture!,
-                                  fit: BoxFit.cover,
-                                ),
-                        ),
+                            radius: 24,
+                            backgroundColor: Colors.grey.shade300,
+                            child: getAvatar(state)),
                       ),
                       const SizedBox(width: 10),
-                      const Text('Welcome Name')
+                      Text(state.user!.name)
                     ],
                   );
                 } else {
@@ -129,35 +141,64 @@ class _HomeScreenState extends State<HomeScreen> {
               )
             ],
           ),
-          body: ListView.builder(
-            itemCount: 4,
-            itemBuilder: (_, index) {
-              return const PostCard(
-                userName: 'userName',
-                date: '23-03-2024',
-                text:
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin quis ipsum ac sem imperdiet tincidunt. Aenean eget lectus vestibulum, malesuada arcu eu, porta dolor. Donec ut velit elementum sem dapibus lobortis a vitae urna. Donec bibendum orci nec nulla luctus, ut sollicitudin augue lobortis. Proin sollicitudin in mi vel placerat. Praesent venenatis vel est vel lobortis. Ut viverra elit felis. Donec id elit lobortis quam sollicitudin volutpat. Sed vulputate vitae nulla sit amet dignissim. Donec ut varius enim, nec maximus libero. Quisque sit amet nisi sem. Suspendisse pretium nisl at rutrum malesuada. Aenean ut enim mattis velit mattis laoreet. Phasellus ac ullamcorper tellus.',
-              );
+          body: BlocBuilder<GetPostsBloc, GetPostsState>(
+            builder: (context, state) {
+              logger.i("STATE_GET_POST: ${state.toString()}");
+              if (state == GetPostsLoading()) {
+                return Center(child: CircularProgressIndicator());
+              } else if (state is GetPostsFailure) {
+                logger.e('ERROR_GET_POSTS: ${state.message}');
+                return AlertDialog(
+                  title: Text("Failure"),
+                  content: Container(
+                    child: Text(
+                      state.message,
+                      style: TextStyle(
+                        color: Colors.deepPurple,
+                      ),
+                    ),
+                  ),
+                );
+              } else if (state is GetPostsSuccess) {
+                return ListView.builder(
+                    itemCount: state.posts.length,
+                    itemBuilder: (_, idx) {
+                      final postData = state.posts[idx];
+                      final userData = postData.myUser;
+                      return PostCard(
+                        userName: userData.name,
+                        date: '34343434',
+                        // postData.createAt.toIso8601String(),
+                        text: postData.post,
+                      );
+                    });
+              } else {
+                return Text('HZ');
+              }
             },
           ),
           floatingActionButton: BlocBuilder<MyUserBloc, MyUserState>(
             builder: (context, state) {
-              logger.w(
-                  'FAB home screen: ${context.read<MyUserBloc>().state.user}');
-              if(state.status == MyUserStatus.success) {
-              return Fab(onFab: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute<void>(
-                    builder: (BuildContext context) => PostScreen(
-                      myUser: state.user!,
-                    ),
-                  ),
+              logger.w('FAB home screen: ${state.user}');
+              if (state.status == MyUserStatus.success) {
+                return Fab(
+                  onFab: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (BuildContext context) => PostScreen(
+                          myUser: state.user!,
+                        ),
+                      ),
+                    );
+                  },
+                  icon: CupertinoIcons.add,
                 );
-              }, icon: CupertinoIcons.add,);
-
-              }else {
-                return const Fab(onFab: null, icon: CupertinoIcons.clear,);
+              } else {
+                return const Fab(
+                  onFab: null,
+                  icon: CupertinoIcons.clear,
+                );
               }
             },
           ),

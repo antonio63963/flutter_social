@@ -20,12 +20,15 @@ class MyUserEntity extends Equatable {
         'picture': picture,
       };
 
-  static MyUserEntity fromDocument(Map<String, Object?> doc) => MyUserEntity(
-        id: doc['id'] as String,
-        email: doc['email'] as String,
-        name: doc['name'] as String,
-        picture: doc['picture'] as String,
-      );
+  static MyUserEntity fromDocument(Map<String, Object?> doc, String? id) {
+    print('MY_USER_ENTITY: ${doc}');
+    return MyUserEntity(
+      id: id ?? doc['id'] as String,
+      email: doc['email'] as String,
+      name: doc['name'] as String,
+      picture: doc['picture'] as String,
+    );
+  }
 
   @override
   List<Object?> get props => [id, email, name, picture];

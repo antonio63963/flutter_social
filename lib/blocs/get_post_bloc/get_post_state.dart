@@ -1,6 +1,8 @@
 part of 'get_post_bloc.dart';
 
 sealed class GetPostsState extends Equatable {
+  // final List<Post>? posts;
+
   const GetPostsState();
 
   @override
@@ -19,4 +21,5 @@ final class GetPostsLoading extends GetPostsState {}
 final class GetPostsSuccess extends GetPostsState {
   final List<Post> posts;
   const GetPostsSuccess(this.posts);
+  
 }

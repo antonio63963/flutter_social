@@ -34,4 +34,13 @@ class Validators {
     }
     return null;
   }
+
+  static String? post(val) {
+    if (val!.isEmpty) {
+      return 'Please fill in this field';
+    } else if (val.length < 10) {
+      return 'Post is too short';
+    }
+    return null;
+  }
 }

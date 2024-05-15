@@ -16,16 +16,20 @@ class PostEntity {
   Map<String, Object?> toDocument() => {
         'id': id,
         'post': post,
-        'createAt': createAt,
+        'createAt': createAt.toIso8601String(),
         'myUser': myUser.toEntity().toDocument(),
       };
 
-  static PostEntity fromDocument(Map<String, Object?> doc) => PostEntity(
-        id: doc['id'] as String,
-        post: doc['post'] as String,
-        createAt: DateTime.parse(doc['createAt'] as String),
-        myUser: MyUser.fromEntity(MyUserEntity.fromDocument(doc['myUser'] as Map<String, Object?>)),
-      );
+  static PostEntity fromDocument(Map<String, Object?> doc) {
+    print('DOC+++++ $doc');
+    return PostEntity(
+      id: doc['id'] as String,
+      post: doc['post'] as String,
+      createAt: DateTime.parse(doc['createAt'] as String),
+      myUser: MyUser.fromEntity(MyUserEntity.fromDocument(
+          doc['myUser'] as Map<String, Object?>, null)),
+    );
+  }
 
   @override
   List<Object?> get props => [id, post, createAt, myUser];

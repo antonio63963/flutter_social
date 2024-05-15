@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
+import 'package:post_repository/post_repository.dart';
 import 'package:social/blocs/auth_bloc/authentication_bloc.dart';
+import 'package:social/blocs/create_post_bloc/create_post_bloc.dart';
+import 'package:social/blocs/get_post_bloc/get_post_bloc.dart';
 import 'package:social/blocs/my_user_bloc/my_user_bloc.dart';
 import 'package:social/blocs/sign_in_bloc/sign_in_bloc.dart';
 import 'package:social/blocs/update_user_info_bloc/update_user_info_bloc.dart';
@@ -49,6 +53,8 @@ class AppView extends StatelessWidget {
                       ),
                     ),
                 ),
+                BlocProvider(create: (context) => GetPostsBloc(GetIt.I<PostRepository>())),
+                BlocProvider(create: (context) => CreatePostBloc(GetIt.I<PostRepository>())),
               ],
               child: const HomeScreen(),
             );

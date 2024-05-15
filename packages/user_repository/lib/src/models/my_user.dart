@@ -54,15 +54,15 @@ class MyUser extends Equatable {
   @override
   List<Object?> get props => [id, email, name, picture];
 //it's in equatable!!!
-  // @override
-  // String toString() {
-  //   return '''
-  //     MyUser(
-  //       id: $id,
-  //       email: $email,
-  //       name: $name,
-  //       picture: $picture,
-  //     )
-  //   ''';
-  // }
+  @override
+  String toString() {
+    return '''
+      MyUser(
+        id: $id,
+        email: $email,
+        name: $name,
+        picture: $picture,
+      )
+    ''';
+  }
 }
